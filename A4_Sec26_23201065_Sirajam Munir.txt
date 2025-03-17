@@ -1,0 +1,172 @@
+Hash Problems:
+
+# Task 01:
+
+  def __hash_function(self, key):
+      jogfol = 0
+      if len(key) % 2 == 1:
+          key = key + "N"
+
+      i = 0
+      while i < len(key):
+          first_part = str(ord(key[i]))
+          second_part = str(ord(key[i + 1]))
+          st = first_part + second_part
+          jogfol = jogfol + int(st)
+          folafol = jogfol % len(self.ht)
+          i += 2
+
+      return folafol
+
+  def search_hashtable(self, s):
+      h_s_h = self.__hash_function(s[0])
+      p = self.ht[h_s_h]
+      for _ in range(3000):
+          if not p:
+              mm = "Not Found"
+              return mm
+          if p.key == s[0]:
+              dd = "Found"
+              return dd
+          p = p.next
+      return "Not Found"
+
+# Task 02:
+
+   def __hash_function(self, key):
+        jogfol = 0
+        start_index = 0 if len(key) % 2 == 0 else 1
+        for i in range(start_index, len(key), 2):
+            jogfol += ord(key[i])
+        return jogfol % self.length
+
+    def insert(self, key, value):
+        z = Node((key, value))
+        indhsh = self.__hash_function(key)
+        g = self.ht[indhsh]
+
+        if g.value is None:
+            self.ht[indhsh] = z
+            return
+
+        kbb = None
+        imrn = g
+        while imrn is not None:
+            if imrn.value[0] == key:  
+                imrn.value = (key, value)
+                return
+            kbb = imrn
+            imrn = imrn.next
+
+        imrn = g
+        kbb = None
+        while imrn is not None and imrn.value[1] > z.value[1]:
+            kbb = imrn
+            imrn = imrn.next
+
+        if kbb is None:
+            z.next = self.ht[indhsh]
+            self.ht[indhsh] = z
+        else:
+            kbb.next = z
+            z.next = imrn
+
+# Task 03:
+
+  def __hash_function(self, key):
+   shifted_key = key + 3
+   tbl_len = len(self.ht)
+   idx_in_tbl = shifted_key % tbl_len
+   return idx_in_tbl
+
+ def remove(self, key):
+    hsh, p, trl = self.__hash_function(key), self.ht[self.__hash_function(key)], None
+    if p and p.key == key: self.ht[hsh] = p.next; return
+    while p and p.key != key: trl, p = p, p.next
+    if p: trl.next = p.next
+
+Stack Problems:
+
+# Task 04:
+
+def diamond_count(stack,string):
+  crystals = 0
+
+  for c in string:
+      if c == '<':
+          stack.push(c)
+      elif c == '>':
+          if not stack.isEmpty() and stack.peek() == '<':
+              stack.pop()
+              crystals += 1
+
+  return crystals
+
+# Task 05:
+
+def remove_block(stack, n):
+    dino = Stack()
+
+    jogfol = 0
+    while jogfol < n - 1 and not stack.isEmpty():
+        dino.push(stack.pop())
+        jogfol += 1
+
+    if not stack.isEmpty():
+        stack.pop()
+
+    while not dino.isEmpty():
+        stack.push(dino.pop())
+
+    return stack
+
+#Task 06:
+
+def conditional_reverse(stack):
+
+    t = Stack()
+    nstck = Stack()
+    stckbttmelem = None
+
+    while not stack.isEmpty():
+        t.push(stack.pop())
+
+    while not t.isEmpty():
+        stack_top = t.pop()
+        if stack_top != stckbttmelem:
+            nstck.push(stack_top)
+        stckbttmelem = stack_top
+
+    return nstck
+
+Queue Problem:
+
+# Task 07:
+
+    def enqueue_call(self, customer_id, is_vip):
+        if is_vip:
+            self.vip_queue.enqueue(customer_id)
+            print(f"Customer {customer_id} added to VIP queue.")
+        else:
+            self.regular_queue.enqueue(customer_id)
+            print(f"Customer {customer_id} added to Regular queue.")
+
+    def dequeue_call(self):
+        if not self.vip_queue.is_empty():
+            customer = self.vip_queue.dequeue()
+            print(f"Processing VIP Customer {customer}.")
+            return customer
+        elif not self.regular_queue.is_empty():
+            customer = self.regular_queue.dequeue()
+            print(f"Processing Regular Customer {customer}.")
+            return customer
+        else:
+            print("No calls in the queue.")
+            return None
+
+    def display_queue(self):
+        print("\nVIP Queue:")
+        self.vip_queue.display_queue()
+        print("Regular Queue:")
+        self.regular_queue.display_queue()
+

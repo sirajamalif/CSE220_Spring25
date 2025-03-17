@@ -1,0 +1,93 @@
+Array
+
+#Task-01
+
+def mergeSortedArray(arr1, arr2):
+    p1 = 0
+    p2 = 0
+    idx = 0
+    total_len = (len(arr1) + len(arr2))
+    merged_arr = np.zeros(total_len, dtype=int)
+
+    while True:
+        if p1 < len(arr1) and (p2 >= len(arr2) or arr1[p1] < arr2[p2]):
+            merged_arr[idx] = arr1[p1]
+            p1 += 1
+        elif p2 < len(arr2):
+            merged_arr[idx] = arr2[p2]
+            p2 += 1
+        else:
+            break
+        idx += 1
+
+    return np.array(merged_arr)
+
+#Task-02
+
+def mostWater(arr):
+    if len(arr) < 2: 
+        return 0
+
+    max_area = 0
+
+    for step in range(1, len(arr)): 
+        for i in range(step):  
+            if arr[i] < arr[step]:
+                min_ht = arr[i]
+            else:
+                min_ht = arr[step]
+
+            area = min_ht * (step - i)  
+
+            if area > max_area:
+                max_area = area
+
+    return max_area
+
+Singly Linked List
+
+#Task-03
+
+def check_similar(building_1, building_2):
+  while building_1 and building_2:
+    if building_1.elem != building_2.elem:
+      return "Not Similar"
+    building_1 = building_1.next
+    building_2 = building_2.next
+
+  if building_1 is None and building_2 is None:
+    return "Similar"
+  else:
+    return "Not Similar"
+
+#Task-04
+
+def assemble_conga_line(head):
+    tail = head
+    is_increasing = False  
+
+    while tail and tail.next:
+        if tail.elem < tail.next.elem:
+            is_increasing = True 
+        elif tail.elem > tail.next.elem:
+            return False  
+        tail = tail.next
+
+    return is_increasing  
+
+#Task-05
+
+def sum_dist(head, arr):
+    values, pos, total = {}, 0, 0  
+    node = head  
+
+    while node:  
+        values[pos] = node.elem  
+        node = node.next  
+        pos += 1  
+
+    for index in arr:  
+        if index in values:  
+            total += values[index]  
+
+    return total  

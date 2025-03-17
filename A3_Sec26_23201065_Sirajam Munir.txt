@@ -1,0 +1,109 @@
+2d array:
+
+# Task-01
+
+def walk_zigzag(floor):
+  col_pos = 0
+  col,row = len(floor[0]),len(floor)
+
+  while col_pos < col:
+    if not col_pos % 2:
+      for i in range(0, row, 2):
+        print(floor[i][col_pos], end=" ")
+    else:
+      start = row - (1 if row % 2 == 0 else 2)
+      for i in range(start, -1, -2):
+                print(floor[i][col_pos], end=" ")
+    print()
+    col_pos += 1
+
+# Task-02
+
+def decrypt_matrix(matrix):
+  col_size = len(matrix[0])
+  temp = np.zeros(col_size, dtype=int)
+
+  for col in range(col_size):
+      temp[col] = 0
+      for row in matrix:
+        temp[col] += row[col]
+
+  result = np.zeros(col_size - 1, dtype=int)
+
+  for idx in range(1, col_size):
+      result[idx - 1] = temp[idx] - temp[idx - 1]
+
+  return list(result)
+
+# Task-03
+
+def row_rotation(exam_week, seat_status):
+    total_rows,total_cols = len(seat_status),len(seat_status[0])
+
+    shift_count = 1
+    while shift_count < exam_week:
+        last_row = list(seat_status[-1])
+
+        for idx in range(total_rows - 1, 0, -1):
+            seat_status[idx] = seat_status[idx - 1]
+
+        seat_status[0] = last_row
+        shift_count += 1
+
+    print("Updated Seating:")
+    print_matrix(seat_status)
+
+    idx = 0
+    while idx < len(seat_status):
+        if "AA" in seat_status[idx]:
+            return idx + 1
+        idx += 1
+
+# Task-04
+
+def compress_matrix(mat):
+  output = np.zeros((2, 2), dtype=int)
+  rows, cols = len(mat), len(mat[0])
+  mid_row, mid_col = rows // 2, cols // 2
+
+  for x in range(mid_row):
+      for y in range(mid_col):
+          output[0][0] += mat[x][y]
+
+  for x in range(mid_row):
+      for y in range(mid_col, cols):
+          output[0][1] += mat[x][y]
+
+  for x in range(mid_row, rows):
+      for y in range(mid_col):
+          output[1][0] += mat[x][y]
+
+  for x in range(mid_row, rows):
+      for y in range(mid_col, cols):
+          output[1][1] += mat[x][y]
+
+  return output
+
+# Task-05
+
+def play_game(arena):
+  score = 0
+  row_count, col_count = len(arena), len(arena[0])
+
+  for row in range(row_count):
+      for col in range(col_count):
+          if arena[row][col] not in {0, 1, 2}:
+              if row + 1 < row_count and arena[row + 1][col] == 2:
+                  score += 1
+              if row - 1 >= 0 and arena[row - 1][col] == 2:
+                  score += 1
+              if col + 1 < col_count and arena[row][col + 1] == 2:
+                  score += 1
+              if col - 1 >= 0 and arena[row][col - 1] == 2:
+                  score += 1
+
+  total_points = score * 2
+  if total_points >= 10:
+      print(f"Points Gained: {total_points}. Your team has survived the game.")
+  else:
+      print(f"Points Gained: {total_points}. Your team is out.")

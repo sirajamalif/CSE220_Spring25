@@ -1,0 +1,231 @@
+Singly Linked List:
+
+#Task-01
+
+def alternate_merge(L1, L2):
+
+    head = L1  
+    temp1, temp2 = L1, L2
+
+    while temp1 and temp2:
+        next1, next2 = temp1.next, temp2.next  
+
+        temp1.next = temp2 
+        temp1 = temp2  
+
+        if next1: 
+          temp1.next = next1  
+          temp1 = next1  
+
+        temp2 = next2  
+
+    if temp2:  
+        temp1.next = temp2
+
+    return head  
+
+#Task-02
+
+def word_Decoder(head):
+    count = 0
+    temp = head
+    while temp:
+        count += 1
+        temp = temp.next
+
+    k = 13 % count
+    if k == 0:
+        return None  
+
+    temp = head
+    index = 0 
+    decoded_letters = []
+    while temp:
+        if index % k == 0 and index != 0:  
+          decoded_letters += [temp.elem]  
+        index += 1
+        temp = temp.next
+
+
+    decoded_letters = decoded_letters[::-1]
+
+
+    dummy = Node("None")
+    tail = dummy
+    for letter in decoded_letters:
+        tail.next = Node(letter)
+        tail = tail.next
+
+    return dummy
+
+#Task-03
+
+def idGenerator(head1, head2, head3):
+
+    prev, curr = None, head1
+    while curr:
+        newNode = curr.next
+        curr.next = prev
+        prev = curr
+        curr = newNode
+
+    temp2, temp3 = head2, head3
+    sum_head = None
+    sum_tail = None
+
+    while temp2 and temp3:
+        sum_val = temp2.elem + temp3.elem
+        if sum_val >= 10:
+            sum_val = sum_val % 10  
+
+        newNode2 = Node(sum_val)
+
+        if sum_head is None:
+            sum_head = newNode2
+            sum_tail = newNode2
+        else:
+            sum_tail.next = newNode2
+            sum_tail = newNode2
+
+        temp2 = temp2.next
+        temp3 = temp3.next
+
+    current = prev
+    while current.next:
+        current = current.next
+    current.next = sum_head
+    return prev
+
+Doubly Linked List
+
+class Patient:
+    def __init__(self, id, name, age, bloodgroup):
+        self.id = id
+        self.name = name
+        self.age = age
+        self.bloodgroup = bloodgroup
+        self.next = None
+        self.prev = None
+
+
+class WRM:
+    def __init__(self):
+        dummy = Patient(None, None, None, None)
+        dummy.next = dummy
+        dummy.prev = dummy
+        self.dummyhead = dummy
+
+    def registerPatient(self, id, name, age, bloodgroup):
+        patient = Patient(id, name, age, bloodgroup)
+        tail = self.dummyhead.prev
+        tail.next = patient
+        patient.prev = tail
+        patient.next = self.dummyhead
+        self.dummyhead.prev = patient
+
+        print(f"Patient {name} registration successful.")
+
+
+    def servePatient(self):
+        if self.canDoctorGoHome():
+            print("There are no patients waiting.")
+            return
+        
+        patient_to_serve = self.dummyhead.next
+        print(f"Now attending: {patient_to_serve.name} (Patient ID: {patient_to_serve.id})")
+        self.dummyhead.next = patient_to_serve.next
+        patient_to_serve.next.prev = self.dummyhead
+
+
+
+    def showAllPatient(self):
+        if self.canDoctorGoHome():
+            print("The queue is empty. No patients available.")
+            return
+        temp = self.dummyhead.next
+        print("List of patients in the queue:")
+        
+        while temp != self.dummyhead:
+            print(f"Name: {temp.name}")
+            temp = temp.next
+
+    def canDoctorGoHome(self):  
+        return self.dummyhead.next is self.dummyhead  
+
+  
+    def cancelAll(self):  
+        self.dummyhead.next = self.dummyhead  
+        self.dummyhead.prev = self.dummyhead  
+        print("All appointments have been cleared successfully.")  
+
+
+    def ReverseTheLine(self):  
+        if self.canDoctorGoHome():  
+            print("Queue is empty, nothing to reverse.")  
+            return  
+
+        node = self.dummyhead  
+        while True:  
+            swap = node.next  
+            node.next, node.prev = node.prev, swap  
+            node = swap  
+            
+            if node is self.dummyhead:  
+                break  
+
+        print("Patient queue has been successfully reversed.")  
+
+
+
+# Tester Code
+print("**Welcome to Waiting Room Management System**")
+wrm = WRM()
+
+while True:
+    print("\nOptions:")
+    print("1. RegisterPatient()")
+    print("2. ServePatient()")
+    print("3. ShowAllPatients()")
+    print("4. CanDoctorGoHome()")
+    print("5. CancelAll()")
+    print("6. ReverseTheLine()")
+    print("7. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        print("Executing RegisterPatient()")
+        id = int(input("Enter Patient ID: "))
+        name = input("Enter Patient Name: ")
+        age = int(input("Enter Patient Age: "))
+        bloodgroup = input("Enter Patient Blood Group: ")
+        wrm.registerPatient(id, name, age, bloodgroup)
+
+    elif choice == "2":
+        wrm.servePatient()
+
+    elif choice == "3":
+        wrm.showAllPatient()
+
+    elif choice == "4":
+        if wrm.canDoctorGoHome():
+            print("Yes, the doctor can go home.")
+        else:
+            print("No, patients are waiting.")
+
+    elif choice == "5":
+        wrm.cancelAll()
+
+    elif choice == "6":
+        wrm.ReverseTheLine()
+
+    elif choice == "7":
+        print("Exiting the system. Goodbye!")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")
+
+
+
+
