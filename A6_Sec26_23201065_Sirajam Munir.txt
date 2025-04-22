@@ -1,0 +1,89 @@
+# Task-01:
+
+def convert_mirror(root):
+  if root is None:
+      return None
+
+
+  alif_1065 = root.left
+  root.left = root.right
+  root.right = alif_1065
+
+
+  convert_mirror(root.left)
+  convert_mirror(root.right)
+
+  return root
+
+# Task-02:
+
+def smallest_level(root, level = {}, i = 0):
+
+  if root is None: return level
+
+  level[i] = root.elem if i not in level else root.elem if root.elem < level[i] else level[i]
+
+
+  smallest_level(root.left, level, i + 1)
+  smallest_level(root.right, level, i + 1)
+
+  return level
+
+# Task-03:
+
+def sumTree(root):
+
+  def alif_recurse_sum(node, level):
+      if node is None: return 0
+
+      alif_1065 = node.elem if level == 0 else node.elem % level
+
+      alif_left_1065 = alif_recurse_sum(node.left, level + 1)
+      alif_right_1065 = alif_recurse_sum(node.right, level + 1)
+
+      return alif_1065 + alif_left_1065 + alif_right_1065
+
+  return alif_recurse_sum(root, 0)
+
+# Task-04:
+
+def swap_child(root, level, M):
+  
+    if root is None: return root
+    if level < M: root.left, root.right = root.right, root.left
+
+    swap_child(root.left, level + 1, M)
+    swap_child(root.right, level + 1, M)
+
+    return root
+
+# Task-05:
+
+def subtract_summation(root):
+    if root is None: return 0
+
+    def alif_sbtre(node):
+        if node is None: return 0
+        pokemon = int(node.elem) + alif_sbtre(node.left) + alif_sbtre(node.right)
+        return pokemon
+
+    sirajam_left_1065 = alif_sbtre(root.left)
+    sirajam_right_1065 = alif_sbtre(root.right)
+
+    return sirajam_left_1065 - sirajam_right_1065
+
+# Task-06:
+
+def alif_lvl(node, level):
+    if node is None: return 0
+
+    sirajam_left_1065 = alif_lvl(node.left, level + 1)
+    sirajam_right_1065 = alif_lvl(node.right, level + 1)
+
+    alif_jogfol = (-node.elem if level % 2 == 0 else node.elem) + sirajam_left_1065 + sirajam_right_1065
+
+    return alif_jogfol
+
+
+def level_sum(root):
+    return alif_lvl(root, 0)
