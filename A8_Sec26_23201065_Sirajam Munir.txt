@@ -1,0 +1,192 @@
+# Task-01:
+
+import numpy as np
+
+class MinHeap:
+    def __init__(self, cap):
+        self.__cap = cap
+        self.__heap = np.zeros(cap, dtype=int)
+        self.__sz = 0
+
+    def swim(self, index):
+        current = index
+        while current > 0:
+            parent = (current - 1) // 2
+            if self.__heap[current] < self.__heap[parent]:
+                tmp = self.__heap[current]
+                self.__heap[current] = self.__heap[parent]
+                self.__heap[parent] = tmp
+                current = parent
+            else:
+                break
+
+    def insert(self, value):
+        if self.__sz < self.__cap:
+            self.__heap[self.__sz] = value
+            self.swim(self.__sz)
+            self.__sz += 1
+
+    def sink(self, index):
+        current = index
+        while (2 * current + 1) < self.__sz:
+            left = 2 * current + 1
+            right = 2 * current + 2
+            min_child = left
+
+            if right < self.__sz and self.__heap[right] < self.__heap[left]:
+                min_child = right
+
+            if self.__heap[current] > self.__heap[min_child]:
+                temp = self.__heap[current]
+                self.__heap[current] = self.__heap[min_child]
+                self.__heap[min_child] = temp
+                current = min_child
+            else:
+                break
+
+    def extractMin(self):
+        if self.__sz == 0:
+            return None
+        root = self.__heap[0]
+        self.__sz -= 1
+        self.__heap[0] = self.__heap[self.__sz]
+        self.sink(0)
+        return root
+
+    def sort(self):
+        count_backup = self.__sz
+        pos = self.__sz - 1
+        while pos > 0:
+            temp = self.__heap[0]
+            self.__heap[0] = self.__heap[pos]
+            self.__heap[pos] = temp
+            self.__sz -= 1
+            self.sink(0)
+            pos -= 1
+        self.__sz = count_backup
+
+
+# Task-02:
+
+import numpy as np
+
+class MaxHeap:
+    def __init__(self, cap):
+        self.__cap = cap
+        self.__heap = np.zeros(cap, dtype=int)
+        self.__sz = 0
+
+    def swim(self, index):
+        cur = index
+        while cur > 0:
+            par = (cur - 1) // 2
+            if self.__heap[cur] > self.__heap[par]:
+                temp = self.__heap[cur]
+                self.__heap[cur] = self.__heap[par]
+                self.__heap[par] = temp
+                cur = par
+            else:
+                break
+
+    def insert(self, value):
+        if self.__sz < self.__cap:
+            self.__heap[self.__sz] = value
+            self.swim(self.__sz)
+            self.__sz += 1
+
+    def sink(self, index):
+        pos = index
+        while (2 * pos + 1) < self.__sz:
+            l = 2 * pos + 1
+            r = 2 * pos + 2
+            big = l
+
+            if r < self.__sz and self.__heap[r] > self.__heap[l]:
+                big = r
+
+            if self.__heap[pos] < self.__heap[big]:
+                temp = self.__heap[pos]
+                self.__heap[pos] = self.__heap[big]
+                self.__heap[big] = temp
+                pos = big
+            else:
+                break
+
+    def extractMax(self):
+        if self.__sz == 0:
+            return None
+        top = self.__heap[0]
+        self.__sz -= 1
+        self.__heap[0] = self.__heap[self.__sz]
+        self.sink(0)
+        return top
+
+    def sort(self):
+        backup = self.__sz
+        i = self.__sz - 1
+        while i > 0:
+            temp = self.__heap[0]
+            self.__heap[0] = self.__heap[i]
+            self.__heap[i] = temp
+            self.__sz -= 1
+            self.sink(0)
+            i -= 1
+        self.__sz = backup
+
+
+# Task-03:
+
+def heap_vending_machine(tks, x):
+    h = MinHeap(x)
+
+    counter = 0
+    while counter < x:
+        h.insert(0)
+        counter += 1
+
+    idx = 0
+    while idx < tks.size:
+        current = h.extractMin()
+        h.insert(current + tks[idx])
+        idx += 1
+
+    result = np.zeros(x, dtype=int)
+
+    ptr = 0
+    while ptr < x:
+        result[ptr] = h.extractMin()
+        ptr += 1
+
+    return result
+
+
+arr = np.array([2, 4, 7, 1, 6])
+ans = heap_vending_machine(arr, 4)
+print(ans)
+
+
+
+# Task-04:
+
+def alif_topK_LElems(arr, elem_LK):
+    heap = MaxHeap(arr.size)
+
+    inum = 0
+    while inum < arr.size:
+        heap.insert(arr[inum])
+        inum += 1
+
+    result = np.zeros(elem_LK, dtype=int)
+
+    count = 0
+    while count < elem_LK:
+        result[count] = heap.extractMax()
+        count += 1
+
+    return result
+
+
+nums = np.array([4, 10, 2, 8, 6, 7])
+elem_LK = 3
+print(alif_topK_LElems(nums, elem_LK))
+
