@@ -1,0 +1,647 @@
+import numpy as np
+
+class alifGraphMatrix1065:
+    def __init__(self, alifvertex1065):
+        self.alifgraph1065 = np.array([[0]*alifvertex1065]*alifvertex1065)
+
+    def alifaddEdge1065(self, alifu1065, alifv1065):
+        self.alifgraph1065[alifu1065][alifv1065] = 1
+        self.alifgraph1065[alifv1065][alifu1065] = 1
+
+    def alifmaximumDegree1065(self):
+        alifmaximum1065 = 0
+        alifi1065 = 0
+        while alifi1065 < len(self.alifgraph1065):
+            alifcount1065 = 0
+            alifj1065 = 0
+            while alifj1065 < len(self.alifgraph1065[alifi1065]):
+                if self.alifgraph1065[alifi1065][alifj1065] == 1:
+                    alifcount1065 += 1
+                alifj1065 += 1
+            if alifcount1065 > alifmaximum1065:
+                alifmaximum1065 = alifcount1065
+            alifi1065 += 1
+        return alifmaximum1065
+
+    def alifdisplay1065(self):
+        print(self.alifgraph1065)
+
+alifg1065 = alifGraphMatrix1065(12)
+alifg1065.alifaddEdge1065(0, 1)
+alifg1065.alifaddEdge1065(0, 2)
+alifg1065.alifaddEdge1065(1, 3)
+alifg1065.alifaddEdge1065(1, 9)
+alifg1065.alifaddEdge1065(2, 4)
+alifg1065.alifaddEdge1065(3, 4)
+alifg1065.alifaddEdge1065(3, 5)
+alifg1065.alifaddEdge1065(4, 5)
+alifg1065.alifaddEdge1065(4, 6)
+alifg1065.alifaddEdge1065(5, 6)
+alifg1065.alifaddEdge1065(5, 7)
+alifg1065.alifaddEdge1065(5, 8)
+alifg1065.alifaddEdge1065(6, 7)
+alifg1065.alifaddEdge1065(7, 8)
+alifg1065.alifaddEdge1065(7, 11)
+alifg1065.alifaddEdge1065(8, 9)
+alifg1065.alifaddEdge1065(8, 11)
+alifg1065.alifaddEdge1065(9, 10)
+alifg1065.alifaddEdge1065(10, 11)
+
+print(alifg1065.alifmaximumDegree1065())
+alifg1065.alifdisplay1065()
+
+
+
+class alifNode1065:
+    def __init__(self, elem=0):
+        self.elem = elem
+        self.next = None
+
+
+class alifGraphlist1065:
+    def __init__(self, vertex):
+        self.size = vertex
+        self.graph = [None for _ in range(vertex)]  # Fixed size initialization
+
+    def alifAddEdge1065(self, u, v):
+        # Add edge u-v
+        if self.graph[u] is None:
+            self.graph[u] = alifNode1065(v)
+        else:
+            h = self.graph[u]
+            while h.next is not None:
+                h = h.next
+            h.next = alifNode1065(v)
+
+        # Add edge v-u (undirected graph)
+        if self.graph[v] is None:
+            self.graph[v] = alifNode1065(u)
+        else:
+            h = self.graph[v]
+            while h.next is not None:
+                h = h.next
+            h.next = alifNode1065(u)
+
+    def alifMaximumDegree1065(self):
+        maximum = 0
+        i = 0
+        while i < self.size:
+            count = 0
+            h = self.graph[i]
+            while h is not None:
+                count += 1
+                h = h.next
+            if count > maximum:
+                maximum = count
+            i += 1
+        return maximum
+
+    def alifDisplay1065(self):
+        i = 0
+        while i < self.size:
+            print(i, end="-> ")
+            h = self.graph[i]
+            while h is not None:
+                print(h.elem, end="")
+                if h.next is not None:
+                    print(", ", end="")
+                h = h.next
+            print()
+            i += 1
+
+
+# Driver code with fixed size initialization
+g = alifGraphlist1065(12)
+g.alifAddEdge1065(0, 1)
+g.alifAddEdge1065(0, 2)
+g.alifAddEdge1065(1, 3)
+g.alifAddEdge1065(1, 9)
+g.alifAddEdge1065(2, 4)
+g.alifAddEdge1065(3, 4)
+g.alifAddEdge1065(3, 5)
+g.alifAddEdge1065(4, 5)
+g.alifAddEdge1065(4, 6)
+g.alifAddEdge1065(5, 6)
+g.alifAddEdge1065(5, 7)
+g.alifAddEdge1065(5, 8)
+g.alifAddEdge1065(6, 7)
+g.alifAddEdge1065(7, 8)
+g.alifAddEdge1065(7, 11)
+g.alifAddEdge1065(8, 9)
+g.alifAddEdge1065(8, 11)
+g.alifAddEdge1065(9, 10)
+g.alifAddEdge1065(10, 11)
+g.alifDisplay1065()
+print(g.alifMaximumDegree1065())
+
+
+
+import numpy as np
+
+class alifWeightedMatrix1065:
+    def __init__(self, vertex):
+        self.size = vertex
+        self.graph = np.array([[0]*vertex for _ in range(vertex)])
+
+    def alifInsertEdge1065(self, u, v, w):
+        self.graph[u][v] = w
+        self.graph[v][u] = w
+
+    def alifShowGraph1065(self):
+        print(self.graph)
+
+    def alifFindMaxWeightVertex1065(self):
+        maximum = 0
+        vertex_index = 0
+        current_weight = 0
+        i = 0
+        while i < self.size:
+            current_weight = 0
+            j = 0
+            while j < self.size:
+                current_weight += self.graph[i][j]
+                j += 1
+            if current_weight > maximum:
+                maximum = current_weight
+                vertex_index = i
+            i += 1
+        return vertex_index
+
+# Driver code with same edges and weights
+g = alifWeightedMatrix1065(12)
+g.alifInsertEdge1065(0, 1, 3)
+g.alifInsertEdge1065(0, 2, 1)
+g.alifInsertEdge1065(1, 3, 5)
+g.alifInsertEdge1065(1, 9, 4)
+g.alifInsertEdge1065(2, 4, -2)
+g.alifInsertEdge1065(3, 4, 6)
+g.alifInsertEdge1065(3, 5, 9)
+g.alifInsertEdge1065(4, 5, 2)
+g.alifInsertEdge1065(4, 6, 1)
+g.alifInsertEdge1065(5, 6, 4)
+g.alifInsertEdge1065(5, 7, 3)
+g.alifInsertEdge1065(5, 8, 7)
+g.alifInsertEdge1065(6, 7, 4)
+g.alifInsertEdge1065(7, 8, -1)
+g.alifInsertEdge1065(7, 11, 5)
+g.alifInsertEdge1065(8, 9, 12)
+g.alifInsertEdge1065(8, 11, 10)
+g.alifInsertEdge1065(9, 10, 11)
+g.alifInsertEdge1065(10, 11, 2)
+# g.alifShowGraph1065()
+print(g.alifFindMaxWeightVertex1065())
+
+
+
+import numpy as np
+
+class alifVertexNode1065:
+    def __init__(self, vertex=0, weight=0):
+        self.data = (vertex, weight)
+        self.link = None
+
+class alifWeightedList1065:
+    def __init__(self, vertex_count):
+        self.vertex_count = vertex_count
+        self.adjacency = np.array([None]*vertex_count)
+
+    def alifConnectVertices1065(self, u, v, w):
+        if not self.adjacency[u]:
+            self.adjacency[u] = alifVertexNode1065(v, w)
+        else:
+            current = self.adjacency[u]
+            while current.link is not None:
+                current = current.link
+            current.link = alifVertexNode1065(v, w)
+
+        if not self.adjacency[v]:
+            self.adjacency[v] = alifVertexNode1065(u, w)
+        else:
+            current = self.adjacency[v]
+            while current.link is not None:
+                current = current.link
+            current.link = alifVertexNode1065(u, w)
+
+    def alifFindHeaviestVertex1065(self):
+        heaviest_weight = 0
+        heaviest_vertex = 0
+        i = 0
+        while i < self.vertex_count:
+            current_weight = 0
+            node = self.adjacency[i]
+            while node is not None:
+                current_weight += node.data[1]
+                node = node.link
+            if current_weight > heaviest_weight:
+                heaviest_weight = current_weight
+                heaviest_vertex = i
+            i += 1
+        return heaviest_vertex
+
+    def alifPrintGraph1065(self):
+        i = 0
+        while i < self.vertex_count:
+            print(i, end="-> ")
+            node = self.adjacency[i]
+            while node is not None:
+                print(node.data, end="")
+                if node.link is not None:
+                    print(", ", end="")
+                node = node.link
+            print()
+            i += 1
+
+# Driver code with same connections and weights
+graph = alifWeightedList1065(12)
+graph.alifConnectVertices1065(0, 1, 3)
+graph.alifConnectVertices1065(0, 2, 1)
+graph.alifConnectVertices1065(1, 3, 5)
+graph.alifConnectVertices1065(1, 9, 4)
+graph.alifConnectVertices1065(2, 4, -2)
+graph.alifConnectVertices1065(3, 4, 6)
+graph.alifConnectVertices1065(3, 5, 9)
+graph.alifConnectVertices1065(4, 5, 2)
+graph.alifConnectVertices1065(4, 6, 1)
+graph.alifConnectVertices1065(5, 6, 4)
+graph.alifConnectVertices1065(5, 7, 3)
+graph.alifConnectVertices1065(5, 8, 7)
+graph.alifConnectVertices1065(6, 7, 4)
+graph.alifConnectVertices1065(7, 8, -1)
+graph.alifConnectVertices1065(7, 11, 5)
+graph.alifConnectVertices1065(8, 9, 12)
+graph.alifConnectVertices1065(8, 11, 10)
+graph.alifConnectVertices1065(9, 10, 11)
+graph.alifConnectVertices1065(10, 11, 2)
+# graph.alifPrintGraph1065()
+print(graph.alifFindHeaviestVertex1065())
+
+
+
+import numpy as np
+
+class alifDirectedMatrix1065:
+    def __init__(self, num_vertices):
+        self.size = num_vertices
+        self.adj_matrix = np.array([[0]*num_vertices for _ in range(num_vertices)])
+
+    def alifAddConnection1065(self, src, dest, weight):
+        self.adj_matrix[src][dest] = weight
+
+    def alifShowMatrix1065(self):
+        print(self.adj_matrix)
+
+    def alifFindMaxOutgoing1065(self):
+        max_count = current_count = 0
+        row = 0
+        while row < self.size:
+            current_count = 0
+            col = 0
+            while col < self.size:
+                if self.adj_matrix[row][col] != 0:
+                    current_count += 1
+                col += 1
+            if current_count > max_count:
+                max_count = current_count
+            row += 1
+        return max_count
+
+    def alifFindMaxWeighted1065(self):
+        max_weight = current_weight = 0
+        max_vertex = 0
+        i = 0
+        while i < self.size:
+            current_weight = 0
+            j = 0
+            while j < self.size:
+                current_weight += self.adj_matrix[i][j]
+                j += 1
+            if current_weight > max_weight:
+                max_weight = current_weight
+                max_vertex = i
+            i += 1
+        return max_vertex
+
+# Driver code with same connections
+dg = alifDirectedMatrix1065(12)
+dg.alifAddConnection1065(0, 1, 3)
+dg.alifAddConnection1065(2, 0, 1)
+dg.alifAddConnection1065(1, 3, 5)
+dg.alifAddConnection1065(9, 1, 4)
+dg.alifAddConnection1065(4, 2, -2)
+dg.alifAddConnection1065(3, 4, 6)
+dg.alifAddConnection1065(5, 3, 9)
+dg.alifAddConnection1065(5, 4, 2)
+dg.alifAddConnection1065(4, 6, 1)
+dg.alifAddConnection1065(5, 6, 4)
+dg.alifAddConnection1065(5, 7, 3)
+dg.alifAddConnection1065(8, 5, 7)
+dg.alifAddConnection1065(6, 7, 4)
+dg.alifAddConnection1065(7, 8, -1)
+dg.alifAddConnection1065(11, 7, 5)
+dg.alifAddConnection1065(8, 9, 12)
+dg.alifAddConnection1065(8, 11, 10)
+dg.alifAddConnection1065(10, 9, 11)
+dg.alifAddConnection1065(11, 10, 2)
+
+# dg.alifShowMatrix1065()
+print(dg.alifFindMaxOutgoing1065())
+print(dg.alifFindMaxWeighted1065())
+
+
+
+import numpy as np
+
+class alifDirNode1065:
+    def __init__(self, vertex_num=0, edge_weight=0):
+        self.vertex_data = (vertex_num, edge_weight)
+        self.next_node = None
+
+class alifDirectedList1065:
+    def __init__(self, total_vertices):
+        self.total_vertices = total_vertices
+        self.adj_list = np.array([None]*total_vertices)
+
+    def alifCreateEdge1065(self, source, destination, weight):
+        if self.adj_list[source] is None:
+            self.adj_list[source] = alifDirNode1065(destination, weight)
+        else:
+            current = self.adj_list[source]
+            while current.next_node is not None:
+                current = current.next_node
+            current.next_node = alifDirNode1065(destination, weight)
+
+    def alifCalcMaxOutDegree1065(self):
+        max_out_degree = current_degree = 0
+        vertex_index = 0
+        while vertex_index < self.total_vertices:
+            current_degree = 0
+            current_node = self.adj_list[vertex_index]
+            while current_node is not None:
+                current_degree += 1
+                current_node = current_node.next_node
+            if current_degree > max_out_degree:
+                max_out_degree = current_degree
+            vertex_index += 1
+        return max_out_degree
+
+    def alifFindMaxWeightVertex1065(self):
+        max_weight = current_weight = 0
+        max_vertex = 0
+        i = 0
+        while i < self.total_vertices:
+            current_weight = 0
+            node = self.adj_list[i]
+            while node is not None:
+                current_weight += node.vertex_data[1]
+                node = node.next_node
+            if current_weight > max_weight:
+                max_weight = current_weight
+                max_vertex = i
+            i += 1
+        return max_vertex
+
+    def alifDisplayGraph1065(self):
+        vertex = 0
+        while vertex < self.total_vertices:
+            print(vertex, end="-> ")
+            current = self.adj_list[vertex]
+            while current is not None:
+                print(current.vertex_data, end="")
+                if current.next_node is not None:
+                    print(", ", end="")
+                current = current.next_node
+            print()
+            vertex += 1
+
+# Driver code with same connections
+graph = alifDirectedList1065(12)
+graph.alifCreateEdge1065(0, 1, 3)
+graph.alifCreateEdge1065(2, 0, 1)
+graph.alifCreateEdge1065(1, 3, 5)
+graph.alifCreateEdge1065(9, 1, 4)
+graph.alifCreateEdge1065(4, 2, -2)
+graph.alifCreateEdge1065(3, 4, 6)
+graph.alifCreateEdge1065(5, 3, 9)
+graph.alifCreateEdge1065(5, 4, 2)
+graph.alifCreateEdge1065(4, 6, 1)
+graph.alifCreateEdge1065(5, 6, 4)
+graph.alifCreateEdge1065(5, 7, 3)
+graph.alifCreateEdge1065(8, 5, 7)
+graph.alifCreateEdge1065(6, 7, 4)
+graph.alifCreateEdge1065(7, 8, -1)
+graph.alifCreateEdge1065(11, 7, 5)
+graph.alifCreateEdge1065(8, 9, 12)
+graph.alifCreateEdge1065(8, 11, 10)
+graph.alifCreateEdge1065(10, 9, 11)
+graph.alifCreateEdge1065(11, 10, 2)
+
+# graph.alifDisplayGraph1065()
+print(graph.alifCalcMaxOutDegree1065())
+print(graph.alifFindMaxWeightVertex1065())
+
+
+
+import numpy as np
+
+class alifMatrixGraph1065:
+    def __init__(self, num_nodes):
+        self.node_count = num_nodes
+        self.connection_grid = np.array([[0]*num_nodes for _ in range(num_nodes)])
+
+    def alifAddConnection1065(self, source, target, weight):
+        self.connection_grid[source][target] = weight
+
+    def alifShowGrid1065(self):
+        print(self.connection_grid)
+
+    def alifFindMaxOutgoing1065(self):
+        max_out = current_out = 0
+        max_node = 0
+        row = 0
+        while row < self.node_count:
+            current_out = 0
+            col = 0
+            while col < self.node_count:
+                if self.connection_grid[row][col] != 0:
+                    current_out += 1
+                col += 1
+            if current_out > max_out:
+                max_out = current_out
+                max_node = row
+            row += 1
+        return max_node
+
+    def alifFindHeaviestNode1065(self):
+        max_weight = current_weight = 0
+        heavy_node = 0
+        i = 0
+        while i < self.node_count:
+            current_weight = 0
+            j = 0
+            while j < self.node_count:
+                current_weight += self.connection_grid[i][j]
+                j += 1
+            if current_weight > max_weight:
+                max_weight = current_weight
+                heavy_node = i
+            i += 1
+        return heavy_node
+
+    def alifMakeBidirectional1065(self):
+        i = 0
+        while i < self.node_count:
+            j = 0
+            while j < self.node_count:
+                if self.connection_grid[i][j] != 0:
+                    self.connection_grid[j][i] = self.connection_grid[i][j]
+                j += 1
+            i += 1
+
+# Create graph with same connections
+graph = alifMatrixGraph1065(12)
+graph.alifAddConnection1065(0, 1, 3)
+graph.alifAddConnection1065(2, 0, 1)
+graph.alifAddConnection1065(1, 3, 5)
+graph.alifAddConnection1065(9, 1, 4)
+graph.alifAddConnection1065(4, 2, -2)
+graph.alifAddConnection1065(3, 4, 6)
+graph.alifAddConnection1065(5, 3, 9)
+graph.alifAddConnection1065(5, 4, 2)
+graph.alifAddConnection1065(4, 6, 1)
+graph.alifAddConnection1065(5, 6, 4)
+graph.alifAddConnection1065(5, 7, 3)
+graph.alifAddConnection1065(8, 5, 7)
+graph.alifAddConnection1065(6, 7, 4)
+graph.alifAddConnection1065(7, 8, -1)
+graph.alifAddConnection1065(11, 7, 5)
+graph.alifAddConnection1065(8, 9, 12)
+graph.alifAddConnection1065(8, 11, 10)
+graph.alifAddConnection1065(10, 9, 11)
+graph.alifAddConnection1065(11, 10, 2)
+
+# Display and test
+graph.alifShowGrid1065()
+print()
+graph.alifMakeBidirectional1065()
+graph.alifShowGrid1065()
+
+
+
+import numpy as np
+
+class alifVertexNode1065:
+    def __init__(self, vertex_num=0, edge_weight=0):
+        self.node_data = (vertex_num, edge_weight)
+        self.next_ptr = None
+
+class alifListGraph1065:
+    def __init__(self, total_nodes):
+        self.node_count = total_nodes
+        self.adj_list = np.array([None]*total_nodes)
+
+    def alifAddDirectedEdge1065(self, src, dest, weight):
+        if not self.adj_list[src]:
+            self.adj_list[src] = alifVertexNode1065(dest, weight)
+        else:
+            curr = self.adj_list[src]
+            while curr.next_ptr is not None:
+                curr = curr.next_ptr
+            curr.next_ptr = alifVertexNode1065(dest, weight)
+
+    def alifGetMaxOutDegree1065(self):
+        max_degree = curr_degree = 0
+        max_vertex = 0
+        i = 0
+        while i < self.node_count:
+            curr_degree = 0
+            node = self.adj_list[i]
+            while node is not None:
+                curr_degree += 1
+                node = node.next_ptr
+            if curr_degree > max_degree:
+                max_degree = curr_degree
+                max_vertex = i
+            i += 1
+        return max_vertex
+
+    def alifGetMaxWeightVertex1065(self):
+        max_weight = curr_weight = 0
+        heavy_vertex = 0
+        i = 0
+        while i < self.node_count:
+            curr_weight = 0
+            node = self.adj_list[i]
+            while node is not None:
+                curr_weight += node.node_data[1]
+                node = node.next_ptr
+            if curr_weight > max_weight:
+                max_weight = curr_weight
+                heavy_vertex = i
+            i += 1
+        return heavy_vertex
+
+    def alifInsertReverseEdge1065(self, dest, src, weight):
+        prev = None
+        curr = self.adj_list[dest]
+
+        if curr is None:
+            self.adj_list[dest] = alifVertexNode1065(src, weight)
+            return
+
+        while curr is not None:
+            if curr.node_data[0] == src:
+                return
+            prev = curr
+            curr = curr.next_ptr
+
+        prev.next_ptr = alifVertexNode1065(src, weight)
+
+    def alifMakeUndirected1065(self):
+        i = 0
+        while i < self.node_count:
+            curr = self.adj_list[i]
+            while curr is not None:
+                self.alifInsertReverseEdge1065(curr.node_data[0], i, curr.node_data[1])
+                curr = curr.next_ptr
+            i += 1
+
+    def alifDisplayGraph1065(self):
+        i = 0
+        while i < self.node_count:
+            print(i, end="-> ")
+            curr = self.adj_list[i]
+            while curr is not None:
+                print(curr.node_data, end="")
+                if curr.next_ptr is not None:
+                    print(", ", end="")
+                curr = curr.next_ptr
+            print()
+            i += 1
+
+# Create graph with same connections
+graph = alifListGraph1065(12)
+graph.alifAddDirectedEdge1065(0, 1, 3)
+graph.alifAddDirectedEdge1065(2, 0, 1)
+graph.alifAddDirectedEdge1065(1, 3, 5)
+graph.alifAddDirectedEdge1065(9, 1, 4)
+graph.alifAddDirectedEdge1065(4, 2, -2)
+graph.alifAddDirectedEdge1065(3, 4, 6)
+graph.alifAddDirectedEdge1065(5, 3, 9)
+graph.alifAddDirectedEdge1065(5, 4, 2)
+graph.alifAddDirectedEdge1065(4, 6, 1)
+graph.alifAddDirectedEdge1065(5, 6, 4)
+graph.alifAddDirectedEdge1065(5, 7, 3)
+graph.alifAddDirectedEdge1065(8, 5, 7)
+graph.alifAddDirectedEdge1065(6, 7, 4)
+graph.alifAddDirectedEdge1065(7, 8, -1)
+graph.alifAddDirectedEdge1065(11, 7, 5)
+graph.alifAddDirectedEdge1065(8, 9, 12)
+graph.alifAddDirectedEdge1065(8, 11, 10)
+graph.alifAddDirectedEdge1065(10, 9, 11)
+graph.alifAddDirectedEdge1065(11, 10, 2)
+
+# Display and test
+graph.alifDisplayGraph1065()
+print()
+graph.alifMakeUndirected1065()
+graph.alifDisplayGraph1065()
